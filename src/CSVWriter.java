@@ -44,10 +44,7 @@ public class CSVWriter {
 
             fileWriter.append("END OF BANTER\n");
 
-            System.out.println("CSV file was created successfully !!!");
-
         } catch (Exception e) {
-            System.out.println("Error in CsvFileWriter !!!");
             e.printStackTrace();
         } finally {
 
@@ -55,7 +52,6 @@ public class CSVWriter {
                 fileWriter.flush();
                 fileWriter.close();
             } catch (IOException e) {
-                System.out.println("Error while flushing/closing fileWriter !!!");
                 e.printStackTrace();
             }
 

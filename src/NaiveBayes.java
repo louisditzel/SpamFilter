@@ -33,6 +33,17 @@ public class NaiveBayes {
         return instance;
     }
 
+    public void clearInstance() {
+        trainHamData = new HashMap<>();
+        trainSpamData = new HashMap<>();
+        testWordData = new HashMap<>();
+        trainVocabulary = new ArrayList<>();
+        trainHamDataTotal = 0;
+        trainSpamDataTotal = 0;
+        probabilityHam = 0;
+        probabilitySpam = 0;
+    }
+
     public void train(File[] trainFiles) throws IOException {
         int numHam = 0;
         int numSpam = 0;
