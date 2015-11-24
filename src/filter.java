@@ -1,5 +1,3 @@
-package com.ml.spam;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -16,9 +14,9 @@ public class filter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        naiveBayes.printTrainingData();
 
         System.out.print(naiveBayes.test(testFile));
+//        naiveBayes.printTrainingData();
     }
 
     public static void printFiles(File trainDirectory, File testFile) {

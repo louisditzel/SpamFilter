@@ -1,5 +1,3 @@
-package com.ml.spam;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -13,7 +11,7 @@ public class NaiveBayes {
     public enum Class {Ham, Spam}
 
     private static NaiveBayes instance = null;
-    private HashMap<String, Integer> trainHamData, trainSpamData;
+    private HashMap<String, Integer> trainHamData, trainSpamData, testWordData;
     private ArrayList<String> trainVocabulary;
     private int trainHamDataTotal, trainSpamDataTotal;
     private double probabilityHam, probabilitySpam;
@@ -21,6 +19,7 @@ public class NaiveBayes {
     protected NaiveBayes() {
         trainHamData = new HashMap<>();
         trainSpamData = new HashMap<>();
+        testWordData = new HashMap<>();
         trainVocabulary = new ArrayList<>();
         trainHamDataTotal = 0;
         trainSpamDataTotal = 0;
@@ -40,10 +39,10 @@ public class NaiveBayes {
         for (File trainFile : trainFiles) {
             if(trainFile.getName().startsWith("ham")) {
                 numHam++;
-                addWordsFromFile(trainFile, trainHamData, Class.Ham);
+                addWordsFromFile(trainFile, trainHamData, true,  Class.Ham);
             } else if (trainFile.getName().startsWith("spam")) {
                 numSpam++;
-                addWordsFromFile(trainFile, trainSpamData, Class.Spam);
+                addWordsFromFile(trainFile, trainSpamData, true, Class.Spam);
             } else if (trainFile.getName().equals(".DS_Store")) {
             } else
                 throw new IOException("Training filename does not start with either ham or spam");
@@ -52,25 +51,19 @@ public class NaiveBayes {
     }
 
     public String test(File testFile) {
-        Scanner sc = null;
-        double pHam = probabilityHam;
-        double pSpam = probabilitySpam;
-        System.out.println("pSpam: " + pSpam);
-        try {
-            sc = new Scanner(testFile);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        addWordsFromFile(testFile, testWordData, false, null);
+
+        double probability = 1;
+        for (String word : trainVocabulary) {
+            probability *= wordLikelihoodRatio(getProbabilityOfWordGivenClass(word, Class.Ham),
+                    getProbabilityOfWordGivenClass(word, Class.Spam),
+                    testWordData.getOrDefault(word, 0));
+
         }
-        while (sc.hasNextLine()) {
-            String[] words = sc.nextLine().trim().split(" ");
-            for (String word : words) {
-                pHam *= getProbabilityOfWordGivenClass(word, Class.Ham);
-                pSpam *= getProbabilityOfWordGivenClass(word, Class.Spam);
-                System.out.println("pSpam: " + pSpam);
-            }
-        }
-        String result = pHam >= pSpam ? "ham\n" : "spam\n";
-        System.out.println(Math.log(pHam) - Math.log(pSpam));
+
+        probability *= probabilityHam / probabilitySpam;
+
+        String result = probability >= 1 ? "ham\n" : "spam\n";
         return result;
     }
 
@@ -83,6 +76,10 @@ public class NaiveBayes {
         for (Map.Entry<String, Integer> entry : trainSpamData.entrySet()) {
             System.out.println(entry.getKey() + " " + entry.getValue());
         }
+        System.out.println("\nTest: ");
+        for (Map.Entry<String, Integer> entry : testWordData.entrySet()) {
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        }
     }
 
     private void setClassProbabilities(int numHam, int numSpam) {
@@ -91,7 +88,7 @@ public class NaiveBayes {
         probabilitySpam = (double) numSpam / (double) total;
     }
 
-    private void addWordsFromFile(File trainFile, HashMap<String, Integer> trainData, Class cl) {
+    private void addWordsFromFile(File trainFile, HashMap<String, Integer> data, boolean train, Class cl) {
         Scanner sc = null;
         try {
             sc = new Scanner(trainFile);
@@ -103,14 +100,16 @@ public class NaiveBayes {
             for (String word : words) {
                 if (word.isEmpty())
                     break;
-                if (!trainData.containsKey(word))
-                    trainData.put(word, 1);
+                if (!data.containsKey(word))
+                    data.put(word, 1);
                 else
-                    trainData.replace(word, trainData.get(word) + 1);
-                if (cl == Class.Ham) trainHamDataTotal++;
-                else trainSpamDataTotal++;
-                if (!trainVocabulary.contains(word))
-                    trainVocabulary.add(word);
+                    data.replace(word, data.get(word) + 1);
+                if (train) {
+                    if (cl == Class.Ham) trainHamDataTotal++;
+                    else trainSpamDataTotal++;
+                    if (!trainVocabulary.contains(word))
+                        trainVocabulary.add(word);
+                }
             }
         }
     }
@@ -121,11 +120,11 @@ public class NaiveBayes {
             probability = (double) (trainHamData.getOrDefault(word, 0) + 1) / (double) (trainHamDataTotal + trainVocabulary.size());
         } else {
             probability = (double) (trainSpamData.getOrDefault(word, 0) + 1) / (double) (trainSpamDataTotal + trainVocabulary.size());
-            System.out.println("word: " + word);
-            System.out.println("numerator: " + (trainSpamData.getOrDefault(word, 0) + 1));
-            System.out.println("denonimator: " + (trainSpamDataTotal + trainVocabulary.size()));
-            System.out.println("prob: " + probability);
         }
         return probability;
+    }
+
+    private double wordLikelihoodRatio (double hamProbability, double spamProbability, int wordCount) {
+        return Math.pow((hamProbability/spamProbability), wordCount);
     }
 }
