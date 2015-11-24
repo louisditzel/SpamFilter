@@ -50,6 +50,16 @@ public class NaiveBayes {
         setClassProbabilities(numHam, numSpam);
     }
 
+    public void getDataFromCSV(String fileName) throws IOException{
+        CSVReader reader = CSVReader.getInstance();
+        reader.readCSVFile(fileName);
+        trainHamData = reader.getHamHash();
+        trainSpamData = reader.getSpamHash();
+        trainVocabulary = reader.getVocabList();
+        trainHamDataTotal = reader.getTrainHamDataTotal();
+        trainSpamDataTotal = reader.getTrainSpamDataTotal();
+    }
+
     public String test(File testFile) {
         addWordsFromFile(testFile, testWordData, false, null);
 
@@ -80,6 +90,26 @@ public class NaiveBayes {
         for (Map.Entry<String, Integer> entry : testWordData.entrySet()) {
             System.out.println(entry.getKey() + " " + entry.getValue());
         }
+    }
+
+    public HashMap<String, Integer> getSpamHash(){
+        return trainSpamData;
+    }
+
+    public HashMap<String, Integer> getHamHash(){
+        return trainHamData;
+    }
+
+    public ArrayList<String> getVocabList(){
+        return trainVocabulary;
+    }
+
+    public int getTrainHamDataTotal(){
+        return trainHamDataTotal;
+    }
+
+    public int getTrainSpamDataTotal(){
+        return trainSpamDataTotal;
     }
 
     private void setClassProbabilities(int numHam, int numSpam) {
