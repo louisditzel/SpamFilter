@@ -1,0 +1,4 @@
+SETUP javac *.java
+
+TEST java filter sampletest/1.txt
+OUT ham
