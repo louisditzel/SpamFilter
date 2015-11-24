@@ -11,8 +11,8 @@ import java.util.Map;
  */
 public class testFilter {
 
-    String inputDirSuccess = "/Users/louis/Documents/Uni/Year3/ML/Spam/sample2/train4";
-    String inputFileSuccess = "/Users/louis/Documents/Uni/Year3/ML/Spam/sample2/test4/1.txt";
+    String inputDirSuccess = System.getProperty("user.dir") + "/sample2/train4";
+    String inputFileSuccess = System.getProperty("user.dir") + "/sample2/test4/1.txt";
     String inputFileFail = "";
 
     @Test
