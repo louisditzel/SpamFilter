@@ -9,13 +9,17 @@ public class filter {
 //        printFiles(trainDirectory,testFile);
         NaiveBayes naiveBayes = NaiveBayes.getInstance();
         try {
-            naiveBayes.train(trainDirectory.listFiles());
+            //naiveBayes.train(trainDirectory.listFiles());
+            naiveBayes.getDataFromCSV("outputFile.banter");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         naiveBayes.printTrainingData();
         System.out.print(naiveBayes.test(testFile));
+//        naiveBayes.printTrainingData();
+
+        //CSVWriter.writeCsvFile("outputFile.banter", naiveBayes.getHamHash(), naiveBayes.getTrainHamDataTotal(), naiveBayes.getSpamHash(), naiveBayes.getTrainSpamDataTotal(), naiveBayes.getVocabList());
     }
 
     public static void printFiles(File trainDirectory, File testFile) {
