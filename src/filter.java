@@ -1,25 +1,47 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 public class filter {
 
     public static void main(String[] args) {
-        File trainDirectory = new File(args[0]);
-        File testFile = new File(args[1]);
-//        printFiles(trainDirectory,testFile);
+
         NaiveBayes naiveBayes = NaiveBayes.getInstance();
-        try {
-            //naiveBayes.train(trainDirectory.listFiles());
-            naiveBayes.getDataFromCSV("outputFile.banter");
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        switch (args[0]) {
+            case "-train":
+                File trainDirectory = new File(args[1]);
+
+                try {
+                    naiveBayes.train(trainDirectory.listFiles());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                CSVWriter.writeCsvFile("outputFile.banter", naiveBayes.getHamHash(), naiveBayes.getTrainHamDataTotal(),
+                        naiveBayes.getSpamHash(), naiveBayes.getTrainSpamDataTotal(), naiveBayes.getVocabList());
+                break;
+            case "-test":
+                File testFile = new File(args[1]);
+                try {
+                    naiveBayes.getDataFromCSV("outputFile.banter");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.print(naiveBayes.test(testFile));
+                break;
+            default:
+                testFile = new File(args[0]);
+                try {
+                    naiveBayes.getDataFromCSV("outputFile.banter");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.print(naiveBayes.test(testFile));
+                break;
         }
 
-        naiveBayes.printTrainingData();
-        System.out.print(naiveBayes.test(testFile));
-//        naiveBayes.printTrainingData();
 
-        //CSVWriter.writeCsvFile("outputFile.banter", naiveBayes.getHamHash(), naiveBayes.getTrainHamDataTotal(), naiveBayes.getSpamHash(), naiveBayes.getTrainSpamDataTotal(), naiveBayes.getVocabList());
     }
 
     public static void printFiles(File trainDirectory, File testFile) {
