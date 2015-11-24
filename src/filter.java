@@ -5,7 +5,6 @@ public class filter {
 
     public static void main(String[] args) {
         File trainDirectory = new File(args[0]);
-        trainDirectory.mkdir();
         File testFile = new File(args[1]);
 //        printFiles(trainDirectory,testFile);
         NaiveBayes naiveBayes = NaiveBayes.getInstance();
@@ -15,8 +14,8 @@ public class filter {
             e.printStackTrace();
         }
 
+        naiveBayes.printTrainingData();
         System.out.print(naiveBayes.test(testFile));
-//        naiveBayes.printTrainingData();
     }
 
     public static void printFiles(File trainDirectory, File testFile) {
