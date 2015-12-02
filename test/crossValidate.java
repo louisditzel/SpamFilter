@@ -21,21 +21,25 @@ public class crossValidate {
         setUpFiles();
         NaiveBayes naiveBayes = NaiveBayes.getInstance();
 
-        int sum = 0;
+        int sumHam = 0;
+        int sumSpam = 0;
         for (int i = 0; i < 10; i++) {
             naiveBayes.clearInstance();
             System.out.println("Index = " + i);
             trainFiles(i, naiveBayes);
             naiveBayes.clearInstance();
-            int numIncorrect = testFiles(i, naiveBayes);
-            System.out.println("Number incorrect = " + numIncorrect);
-            sum += numIncorrect;
+            int[] numIncorrect = testFiles(i, naiveBayes);
+            System.out.println("Number incorrect ham = " + numIncorrect[0]);
+            System.out.println("Number incorrect spam = " + numIncorrect[1]);
+            sumHam += numIncorrect[0];
         }
-        double average = sum / (totNumFiles / 10.0);
-        System.out.println("Total number files = " + totNumFiles);
-        System.out.println("Total number incorrect = " + sum);
-        System.out.println("Average number incorrect per iteration = " + average);
-
+        double averageHam = (sumHam - 1) / 10.0;
+        double averageSpam = sumSpam / 10.0;
+        System.out.println("Total number files = " + (totNumFiles - 1));
+        System.out.println("Total number incorrect ham = " + (sumHam - 1));
+        System.out.println("Total number incorrect spam = " + sumSpam);
+        System.out.println("Average number incorrect ham per iteration = " + averageHam);
+        System.out.println("Average number incorrect spam per iteration = " + averageSpam);
     }
 
     private void setUpFiles() {
@@ -68,8 +72,10 @@ public class crossValidate {
 
     }
 
-    private int testFiles(int index, NaiveBayes naiveBayes) {
-        int numIncorrect = 0;
+    private int[] testFiles(int index, NaiveBayes naiveBayes) {
+        int numIncorrect[] = new int[2];
+        numIncorrect[0] = 0;
+        numIncorrect[1] = 0;
         System.out.println("Testing files...");
         ArrayList<File> testFiles = files[index];
         try {
@@ -82,7 +88,16 @@ public class crossValidate {
             String out = naiveBayes.test(file);
             System.out.println(file.getName() + ": " + out);
             if (!file.getName().contains(out.trim()))
-                numIncorrect++;
+                switch (file.getName()) {
+                    case "ham":
+                        numIncorrect[0]++;
+                        break;
+                    case "spam":
+                        numIncorrect[1]++;
+                        break;
+                    default:
+                        System.out.println("Error: Not ham or spam");
+                }
         }
 
         return numIncorrect;
