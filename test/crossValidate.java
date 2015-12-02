@@ -11,6 +11,7 @@ public class crossValidate {
 
     String inputDir = System.getProperty("user.dir") + "/train";
     ArrayList<File>[] files = new ArrayList[10];
+    int totNumFiles = 0;
 
     @Test
     public void validate() {
@@ -20,19 +21,28 @@ public class crossValidate {
         setUpFiles();
         NaiveBayes naiveBayes = NaiveBayes.getInstance();
 
+        int sum = 0;
         for (int i = 0; i < 10; i++) {
             naiveBayes.clearInstance();
             System.out.println("Index = " + i);
             trainFiles(i, naiveBayes);
             naiveBayes.clearInstance();
-            testFiles(i, naiveBayes);
+            int numIncorrect = testFiles(i, naiveBayes);
+            System.out.println("Number incorrect = " + numIncorrect);
+            sum += numIncorrect;
         }
+        double average = sum / (totNumFiles / 10.0);
+        System.out.println("Total number files = " + totNumFiles);
+        System.out.println("Total number incorrect = " + sum);
+        System.out.println("Average number incorrect per iteration = " + average);
+
     }
 
     private void setUpFiles() {
         File filesDirectory = new File(inputDir);
         File[] allFiles = filesDirectory.listFiles();
-        for (int i = 0; i < allFiles.length; i++) {
+        totNumFiles = allFiles.length;
+        for (int i = 0; i < totNumFiles; i++) {
             files[i % 10].add(allFiles[i]);
         }
     }
@@ -58,7 +68,8 @@ public class crossValidate {
 
     }
 
-    private void testFiles(int index, NaiveBayes naiveBayes) {
+    private int testFiles(int index, NaiveBayes naiveBayes) {
+        int numIncorrect = 0;
         System.out.println("Testing files...");
         ArrayList<File> testFiles = files[index];
         try {
@@ -70,7 +81,11 @@ public class crossValidate {
             naiveBayes.clearInstanceForTest();
             String out = naiveBayes.test(file);
             System.out.println(file.getName() + ": " + out);
+            if (!file.getName().contains(out.trim()))
+                numIncorrect++;
         }
+
+        return numIncorrect;
     }
 
 }
