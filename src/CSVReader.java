@@ -8,7 +8,7 @@ public class CSVReader {
     private static CSVReader instance = null;
     private HashMap<String, Integer> trainHamData, trainSpamData;
     private ArrayList<String> trainVocabulary;
-    private int trainHamDataTotal, trainSpamDataTotal;
+    private int trainHamDataTotal, trainSpamDataTotal, numHamFiles, numSpamFiles;
 
     protected CSVReader() {
         trainHamData = new HashMap<>();
@@ -16,6 +16,8 @@ public class CSVReader {
         trainVocabulary = new ArrayList<>();
         trainHamDataTotal = 0;
         trainSpamDataTotal = 0;
+        numHamFiles = 0;
+        numSpamFiles = 0;
     }
 
     public static CSVReader getInstance() {
@@ -39,6 +41,9 @@ public class CSVReader {
             trainHamDataTotal = Integer.valueOf(line);
 
             line = fileReader.readLine();
+            numHamFiles = Integer.valueOf(line);
+
+            line = fileReader.readLine();
             //Fill ham hashmap
             while (!line.equals("TRAIN SPAM")) {
                 String[] pair = line.split(" ");
@@ -50,6 +55,9 @@ public class CSVReader {
 
             line = fileReader.readLine();
             trainSpamDataTotal = Integer.valueOf(line);
+
+            line = fileReader.readLine();
+            numSpamFiles = Integer.valueOf(line);
 
             line = fileReader.readLine();
             //fill spam hashmap
@@ -98,5 +106,13 @@ public class CSVReader {
 
     public int getTrainSpamDataTotal(){
         return trainSpamDataTotal;
+    }
+
+    public int getNumHamFiles() {
+        return numHamFiles;
+    }
+
+    public int getNumSpamFiles() {
+        return numSpamFiles;
     }
 }

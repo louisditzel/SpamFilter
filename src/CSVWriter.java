@@ -4,7 +4,9 @@ import java.util.*;
 
 public class CSVWriter {
 
-    public static void writeCsvFile(String fileName, HashMap<String, Integer> hamHashMap, int trainHamDataTotal, HashMap<String, Integer> spamHashMap, int trainSpamDataTotal, ArrayList<String> vocabList) {
+    public static void writeCsvFile(String fileName, HashMap<String, Integer> hamHashMap, int trainHamDataTotal,
+                                    HashMap<String, Integer> spamHashMap, int trainSpamDataTotal,
+                                    ArrayList<String> vocabList, int numHamFiles, int numSpamFiles) {
         FileWriter fileWriter = null;
 
         try {
@@ -16,6 +18,9 @@ public class CSVWriter {
             fileWriter.append(String.valueOf(trainHamDataTotal));
             fileWriter.append("\n");
 
+            fileWriter.append(String.valueOf(numHamFiles));
+            fileWriter.append("\n");
+
             while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry)it.next();
                 fileWriter.append(pair.getKey() + " " + pair.getValue());
@@ -25,6 +30,9 @@ public class CSVWriter {
 
             fileWriter.append("TRAIN SPAM\n");
             fileWriter.append(String.valueOf(trainSpamDataTotal));
+            fileWriter.append("\n");
+
+            fileWriter.append(String.valueOf(numSpamFiles));
             fileWriter.append("\n");
 
             it = spamHashMap.entrySet().iterator();

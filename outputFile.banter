@@ -1,19 +1,20 @@
 TRAIN HAM
-6
+3
+1
 Clay 1
-Bob 1
-Rolex 1
-Alice 1
-Elisabeth 1
-David 1
+Ant 1
+Bird 1
 TRAIN SPAM
-5
-Rolex 5
+4
+1
+Ant 1
+Bird 1
+Elephant 1
+Deer 1
 TRAIN VOCAB
-Alice
-Bob
+Ant
+Bird
 Clay
-David
-Elisabeth
-Rolex
+Deer
+Elephant
 END OF BANTER

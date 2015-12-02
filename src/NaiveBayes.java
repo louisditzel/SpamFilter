@@ -13,8 +13,8 @@ public class NaiveBayes {
     private static NaiveBayes instance = null;
     private HashMap<String, Integer> trainHamData, trainSpamData, testWordData;
     private ArrayList<String> trainVocabulary;
-    private int trainHamDataTotal, trainSpamDataTotal;
-    private double probabilityHam, probabilitySpam;
+    private int trainHamDataTotal, trainSpamDataTotal, numHamFiles, numSpamFiles;
+    private double priorHam, priorSpam;
 
     protected NaiveBayes() {
         trainHamData = new HashMap<>();
@@ -23,8 +23,10 @@ public class NaiveBayes {
         trainVocabulary = new ArrayList<>();
         trainHamDataTotal = 0;
         trainSpamDataTotal = 0;
-        probabilityHam = 0;
-        probabilitySpam = 0;
+        numHamFiles = 0;
+        numSpamFiles = 0;
+        priorHam = 0;
+        priorSpam = 0;
     }
 
     public static NaiveBayes getInstance() {
@@ -40,25 +42,30 @@ public class NaiveBayes {
         trainVocabulary = new ArrayList<>();
         trainHamDataTotal = 0;
         trainSpamDataTotal = 0;
-        probabilityHam = 0;
-        probabilitySpam = 0;
+        numHamFiles = 0;
+        numSpamFiles = 0;
+        priorHam = 0;
+        priorSpam = 0;
+    }
+
+    public void clearInstanceForTest() {
+        testWordData = new HashMap<>();
     }
 
     public void train(File[] trainFiles) throws IOException {
-        int numHam = 0;
-        int numSpam = 0;
         for (File trainFile : trainFiles) {
             if(trainFile.getName().startsWith("ham")) {
-                numHam++;
+                numHamFiles++;
                 addWordsFromFile(trainFile, trainHamData, true,  Class.Ham);
             } else if (trainFile.getName().startsWith("spam")) {
-                numSpam++;
+                numSpamFiles++;
                 addWordsFromFile(trainFile, trainSpamData, true, Class.Spam);
             } else if (trainFile.getName().equals(".DS_Store")) {
             } else
                 throw new IOException("Training filename does not start with either ham or spam");
         }
-        setClassProbabilities(numHam, numSpam);
+        setClassPriors(numHamFiles, numSpamFiles);
+
     }
 
     public void getDataFromCSV(String fileName) throws IOException{
@@ -69,23 +76,25 @@ public class NaiveBayes {
         trainVocabulary = reader.getVocabList();
         trainHamDataTotal = reader.getTrainHamDataTotal();
         trainSpamDataTotal = reader.getTrainSpamDataTotal();
+        numHamFiles = reader.getNumHamFiles();
+        numSpamFiles = reader.getNumSpamFiles();
     }
 
     public String test(File testFile) {
         addWordsFromFile(testFile, testWordData, false, null);
+        setClassPriors(numHamFiles, numSpamFiles);
 
         double probability = 1;
+
         for (String word : trainVocabulary) {
             probability *= wordLikelihoodRatio(getProbabilityOfWordGivenClass(word, Class.Ham),
                     getProbabilityOfWordGivenClass(word, Class.Spam),
                     testWordData.getOrDefault(word, 0));
-
         }
 
-        probability *= probabilityHam / probabilitySpam;
+        probability *= priorHam / priorSpam;
 
-        String result = probability >= 1 ? "ham\n" : "spam\n";
-        return result;
+        return probability >= 1 ? "ham\n" : "spam\n";
     }
 
     public void printTrainingData() {
@@ -123,10 +132,18 @@ public class NaiveBayes {
         return trainSpamDataTotal;
     }
 
-    private void setClassProbabilities(int numHam, int numSpam) {
+    public int getNumHamFiles() {
+        return numHamFiles;
+    }
+
+    public int getNumSpamFiles() {
+        return numSpamFiles;
+    }
+
+    private void setClassPriors(int numHam, int numSpam) {
         int total = numHam + numSpam;
-        probabilityHam = (double) numHam / (double) total;
-        probabilitySpam = (double) numSpam / (double) total;
+        priorHam = (double) numHam / (double) total;
+        priorSpam = (double) numSpam / (double) total;
     }
 
     private void addWordsFromFile(File trainFile, HashMap<String, Integer> data, boolean train, Class cl) {

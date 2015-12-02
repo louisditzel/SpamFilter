@@ -13,6 +13,7 @@ public class testFilter {
 
     String inputDirSuccess = System.getProperty("user.dir") + "/sample2/train4";
     String inputFileSuccess = System.getProperty("user.dir") + "/sample2/test4/1.txt";
+    String inputTestDirSuccess = System.getProperty("user.dir") + "/sample2/test4/";
     String inputFileFail = "";
 
     @Test
@@ -90,14 +91,15 @@ public class testFilter {
         HashMap<String, Integer> trainHamData = (HashMap<String, Integer>) naiveBayes.getHamHash().clone();
         HashMap<String, Integer> trainSpamData = (HashMap<String, Integer>) naiveBayes.getSpamHash().clone();
 
-        CSVWriter.writeCsvFile("outputFile.banter", naiveBayes.getHamHash(), naiveBayes.getTrainHamDataTotal(),
-                naiveBayes.getSpamHash(), naiveBayes.getTrainSpamDataTotal(), naiveBayes.getVocabList());
+        CSVWriter.writeCsvFile("outputFile_junit.banter", naiveBayes.getHamHash(), naiveBayes.getTrainHamDataTotal(),
+                naiveBayes.getSpamHash(), naiveBayes.getTrainSpamDataTotal(), naiveBayes.getVocabList(),
+                naiveBayes.getNumHamFiles(), naiveBayes.getNumSpamFiles());
 
         naiveBayes.clearInstance();
 
         try {
             //naiveBayes.train(trainDirectory.listFiles());
-            naiveBayes.getDataFromCSV("outputFile.banter");
+            naiveBayes.getDataFromCSV("outputFile_junit.banter");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -116,5 +118,46 @@ public class testFilter {
             Assert.assertTrue(csvSpamData.entrySet().contains(entry));
         }
 
+    }
+
+    @Test
+    public void testTestOutput() {
+        File trainDirectory = new File(inputDirSuccess);
+        File test1 = new File(inputTestDirSuccess + "1.txt");
+        File test2 = new File(inputTestDirSuccess + "2.txt");
+        File test3 = new File(inputTestDirSuccess + "3.txt");
+        NaiveBayes naiveBayes = NaiveBayes.getInstance();
+        naiveBayes.clearInstance();
+
+        try {
+            naiveBayes.train(trainDirectory.listFiles());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        CSVWriter.writeCsvFile("outputFile_junit.banter", naiveBayes.getHamHash(), naiveBayes.getTrainHamDataTotal(),
+                naiveBayes.getSpamHash(), naiveBayes.getTrainSpamDataTotal(), naiveBayes.getVocabList(),
+                naiveBayes.getNumHamFiles(), naiveBayes.getNumSpamFiles());
+
+        naiveBayes.clearInstance();
+
+
+        try {
+            //naiveBayes.train(trainDirectory.listFiles());
+            naiveBayes.getDataFromCSV("outputFile_junit.banter");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String expectedSpam = "spam\n";
+        String expectedHam = "ham\n";
+        String out = naiveBayes.test(test1);
+        Assert.assertEquals(expectedSpam, out);
+        naiveBayes.clearInstanceForTest();
+        out = naiveBayes.test(test2);
+        Assert.assertEquals(expectedHam, out);
+        naiveBayes.clearInstanceForTest();
+        out = naiveBayes.test(test3);
+        Assert.assertEquals(expectedSpam, out);
     }
 }
