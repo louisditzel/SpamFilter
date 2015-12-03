@@ -32,6 +32,7 @@ public class crossValidate {
             System.out.println("Number incorrect ham = " + numIncorrect[0]);
             System.out.println("Number incorrect spam = " + numIncorrect[1]);
             sumHam += numIncorrect[0];
+            sumSpam += numIncorrect[1];
         }
         double averageHam = (sumHam - 1) / 10.0;
         double averageSpam = sumSpam / 10.0;
@@ -86,14 +87,14 @@ public class crossValidate {
         for (File file : testFiles) {
             naiveBayes.clearInstanceForTest();
             String out = naiveBayes.test(file);
-            System.out.println(file.getName() + ": " + out);
+//            System.out.println(file.getName() + ": " + out);
             if (!file.getName().contains(out.trim()))
-                switch (file.getName()) {
+                switch (out.trim()) {
                     case "ham":
-                        numIncorrect[0]++;
+                        numIncorrect[1]++;
                         break;
                     case "spam":
-                        numIncorrect[1]++;
+                        numIncorrect[0]++;
                         break;
                     default:
                         System.out.println("Error: Not ham or spam");

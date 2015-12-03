@@ -154,7 +154,11 @@ public class NaiveBayes {
             e.printStackTrace();
         }
         while (sc.hasNextLine()) {
-            String[] words = sc.nextLine().trim().split(" ");
+
+//            StringTokenizer stringTokenizer = new StringTokenizer(sc.nextLine(), "[^a-zA-Z0-9_\\-'!$\\.]+");
+//            while (stringTokenizer.hasMoreTokens()) {
+//                String word = stringTokenizer.nextToken();
+            String[] words = sc.nextLine().trim().split("[^a-zA-Z0-9_\\-'!$\\.]+");
             for (String word : words) {
                 if (word.isEmpty())
                     break;
