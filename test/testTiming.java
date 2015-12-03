@@ -52,11 +52,13 @@ public class testTiming {
 
         String expected = "ham\n";
         String out = naiveBayes.test(test);
-        Assert.assertEquals(expected, out);
 
         final long endTimeTest = System.currentTimeMillis();
 
         System.out.println("Total testing execution time: " + ((endTimeTest - startTimeTest)/1000.0) + "s");
+
+        Assert.assertEquals(expected, out);
+
     }
 
 

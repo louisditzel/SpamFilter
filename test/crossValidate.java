@@ -47,6 +47,12 @@ public class crossValidate {
         Path inputDirectory = Paths.get(inputDir);
         Path outputRoot = Paths.get(outputDir);
 
+        if (Files.exists(outputRoot)) {
+            try {
+                deleteDirectory(outputRoot);
+            } catch (IOException e) {
+            }
+        }
         try {
             Files.createDirectory(outputRoot);
         } catch (IOException e) {
