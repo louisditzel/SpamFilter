@@ -7,13 +7,13 @@ public class CSVReader {
 
     private static CSVReader instance = null;
     private HashMap<String, Integer> trainHamData, trainSpamData;
-    private ArrayList<String> trainVocabulary;
+    private HashMap<String, Float> trainVocabulary;
     private int trainHamDataTotal, trainSpamDataTotal, numHamFiles, numSpamFiles;
 
     protected CSVReader() {
         trainHamData = new HashMap<>();
         trainSpamData = new HashMap<>();
-        trainVocabulary = new ArrayList<>();
+        trainVocabulary = new HashMap<>();
         trainHamDataTotal = 0;
         trainSpamDataTotal = 0;
         numHamFiles = 0;
@@ -72,7 +72,10 @@ public class CSVReader {
             //fill vocab list
             line = fileReader.readLine();
             while (!line.equals("END OF BANTER")) {
-                trainVocabulary.add(line);
+                String[] pair = line.split(" ");
+                if (pair.length > 0) {
+                    trainVocabulary.put(pair[0], Float.valueOf(pair[1]));
+                }
                 line = fileReader.readLine();
             }
         }
@@ -96,7 +99,7 @@ public class CSVReader {
         return trainHamData;
     }
 
-    public ArrayList<String> getVocabList(){
+    public HashMap<String, Float> getVocabList(){
         return trainVocabulary;
     }
 

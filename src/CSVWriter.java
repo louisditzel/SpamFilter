@@ -6,7 +6,7 @@ public class CSVWriter {
 
     public static void writeCsvFile(String fileName, HashMap<String, Integer> hamHashMap, int trainHamDataTotal,
                                     HashMap<String, Integer> spamHashMap, int trainSpamDataTotal,
-                                    ArrayList<String> vocabList, int numHamFiles, int numSpamFiles) {
+                                    HashMap<String, Float> vocabList, int numHamFiles, int numSpamFiles) {
         FileWriter fileWriter = null;
 
         try {
@@ -45,8 +45,8 @@ public class CSVWriter {
             }
 
             fileWriter.append("TRAIN VOCAB\n");
-            for (String word : vocabList) {
-                fileWriter.append(word);
+            for (Map.Entry<String, Float> entry : vocabList.entrySet()) {
+                fileWriter.append(entry.getKey() + " " + entry.getValue());
                 fileWriter.append("\n");
             }
 

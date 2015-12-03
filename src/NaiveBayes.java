@@ -1,7 +1,13 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Created by louis on 23/11/2015.
@@ -12,15 +18,15 @@ public class NaiveBayes {
 
     private static NaiveBayes instance = null;
     private HashMap<String, Integer> trainHamData, trainSpamData, testWordData;
-    private ArrayList<String> trainVocabulary;
+    private HashMap<String, Float> trainVocabulary;
     private int trainHamDataTotal, trainSpamDataTotal, numHamFiles, numSpamFiles;
-    private double priorHam, priorSpam;
+    private float priorHam, priorSpam;
 
     protected NaiveBayes() {
         trainHamData = new HashMap<>();
         trainSpamData = new HashMap<>();
         testWordData = new HashMap<>();
-        trainVocabulary = new ArrayList<>();
+        trainVocabulary = new HashMap<>();
         trainHamDataTotal = 0;
         trainSpamDataTotal = 0;
         numHamFiles = 0;
@@ -36,10 +42,10 @@ public class NaiveBayes {
     }
 
     public void clearInstance() {
-        trainHamData = new HashMap<>();
-        trainSpamData = new HashMap<>();
-        testWordData = new HashMap<>();
-        trainVocabulary = new ArrayList<>();
+        trainHamData.clear();
+        trainSpamData.clear();
+        testWordData.clear();
+        trainVocabulary.clear();
         trainHamDataTotal = 0;
         trainSpamDataTotal = 0;
         numHamFiles = 0;
@@ -49,23 +55,29 @@ public class NaiveBayes {
     }
 
     public void clearInstanceForTest() {
-        testWordData = new HashMap<>();
+        testWordData.clear();
     }
 
-    public void train(File[] trainFiles) throws IOException {
-        for (File trainFile : trainFiles) {
-            if(trainFile.getName().startsWith("ham")) {
+    public void train(DirectoryStream<Path> trainFiles) throws IOException {
+        for (Path trainFile : trainFiles) {
+            if(trainFile.getFileName().toString().startsWith("ham")) {
                 numHamFiles++;
                 addWordsFromFile(trainFile, trainHamData, true,  Class.Ham);
-            } else if (trainFile.getName().startsWith("spam")) {
+            } else if (trainFile.getFileName().toString().startsWith("spam")) {
                 numSpamFiles++;
                 addWordsFromFile(trainFile, trainSpamData, true, Class.Spam);
-            } else if (trainFile.getName().equals(".DS_Store")) {
+            } else if (trainFile.getFileName().toString().equals(".DS_Store")) {
             } else
-                throw new IOException("Training filename does not start with either ham or spam");
+                throw new IOException("Training filename (" + trainFile.getFileName() +
+                        ") does not start with either ham or spam");
         }
         setClassPriors(numHamFiles, numSpamFiles);
 
+
+        for (Map.Entry<String, Float> entry : trainVocabulary.entrySet()) {
+            entry.setValue(wordLikelihoodRatio(getProbabilityOfWordGivenClass(entry.getKey(), Class.Ham),
+                    getProbabilityOfWordGivenClass(entry.getKey(), Class.Spam)));
+        }
     }
 
     public void getDataFromCSV(String fileName) throws IOException{
@@ -80,16 +92,14 @@ public class NaiveBayes {
         numSpamFiles = reader.getNumSpamFiles();
     }
 
-    public String test(File testFile) {
+    public String test(Path testFile) {
         addWordsFromFile(testFile, testWordData, false, null);
         setClassPriors(numHamFiles, numSpamFiles);
 
         double probability = 1;
 
-        for (String word : trainVocabulary) {
-            probability *= wordLikelihoodRatio(getProbabilityOfWordGivenClass(word, Class.Ham),
-                    getProbabilityOfWordGivenClass(word, Class.Spam),
-                    testWordData.getOrDefault(word, 0));
+        for (Map.Entry<String, Float> entry : trainVocabulary.entrySet()) {
+            probability *= Math.pow((double) entry.getValue(), testWordData.getOrDefault(entry.getKey(), 0));
         }
 
         probability *= priorHam / priorSpam;
@@ -120,7 +130,7 @@ public class NaiveBayes {
         return trainHamData;
     }
 
-    public ArrayList<String> getVocabList(){
+    public HashMap<String, Float> getVocabList(){
         return trainVocabulary;
     }
 
@@ -142,51 +152,51 @@ public class NaiveBayes {
 
     private void setClassPriors(int numHam, int numSpam) {
         int total = numHam + numSpam;
-        priorHam = (double) numHam / (double) total;
-        priorSpam = (double) numSpam / (double) total;
+        priorHam = (float) numHam / (float) total;
+        priorSpam = (float) numSpam / (float) total;
     }
 
-    private void addWordsFromFile(File trainFile, HashMap<String, Integer> data, boolean train, Class cl) {
-        Scanner sc = null;
+    private void addWordsFromFile(Path trainFile, HashMap<String, Integer> data, boolean train, Class cl) {
+
+        String fileContents = "";
         try {
-            sc = new Scanner(trainFile);
-        } catch (FileNotFoundException e) {
+            fileContents = new String(Files.readAllBytes(trainFile), StandardCharsets.UTF_8);
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        while (sc.hasNextLine()) {
-
-//            StringTokenizer stringTokenizer = new StringTokenizer(sc.nextLine(), "[^a-zA-Z0-9_\\-'!$\\.]+");
-//            while (stringTokenizer.hasMoreTokens()) {
-//                String word = stringTokenizer.nextToken();
-            String[] words = sc.nextLine().trim().split("[^a-zA-Z0-9_\\-'!$\\.]+");
-            for (String word : words) {
-                if (word.isEmpty())
-                    break;
-                if (!data.containsKey(word))
-                    data.put(word, 1);
-                else
-                    data.replace(word, data.get(word) + 1);
-                if (train) {
-                    if (cl == Class.Ham) trainHamDataTotal++;
-                    else trainSpamDataTotal++;
-                    if (!trainVocabulary.contains(word))
-                        trainVocabulary.add(word);
-                }
+        String[] words = preProcess(fileContents);
+        for (String word : words) {
+            if (word.isEmpty())
+                break;
+            if (!data.containsKey(word))
+                data.put(word, 1);
+            else
+                data.replace(word, data.get(word) + 1);
+            if (train) {
+                if (cl == Class.Ham) trainHamDataTotal++;
+                else trainSpamDataTotal++;
+                if (!trainVocabulary.containsKey(word))
+                    trainVocabulary.put(word, 0f);
             }
         }
     }
 
-    private double getProbabilityOfWordGivenClass(String word, Class cl) {
-        double probability = 0;
+    private float getProbabilityOfWordGivenClass(String word, Class cl) {
+        float probability;
         if (cl == Class.Ham) {
-            probability = (double) (trainHamData.getOrDefault(word, 0) + 1) / (double) (trainHamDataTotal + trainVocabulary.size());
+            probability = (float) (trainHamData.getOrDefault(word, 0) + 1) / (float) (trainHamDataTotal + trainVocabulary.size());
         } else {
-            probability = (double) (trainSpamData.getOrDefault(word, 0) + 1) / (double) (trainSpamDataTotal + trainVocabulary.size());
+            probability = (float) (trainSpamData.getOrDefault(word, 0) + 1) / (float) (trainSpamDataTotal + trainVocabulary.size());
         }
         return probability;
     }
 
-    private double wordLikelihoodRatio (double hamProbability, double spamProbability, int wordCount) {
-        return Math.pow((hamProbability/spamProbability), wordCount);
+    private float wordLikelihoodRatio (float hamProbability, float spamProbability) {
+        return (hamProbability/spamProbability);
+    }
+
+    private String[] preProcess(String fileContents) {
+        fileContents.replaceAll("Content-Disposition: attachment;.*------=_NextPart", "");
+        return fileContents.trim().split("[^a-zA-Z0-9_\\-'!$\\.]+");
     }
 }

@@ -4,6 +4,7 @@ import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.*;
 
 /**
  * Created by louis on 03/12/2015.
@@ -16,14 +17,18 @@ public class testTiming {
     @Test
     public void testTraining() {
         final long startTimeTrain = System.currentTimeMillis();
-        File trainDirectory = new File(inputDir);
+        Path trainDirectory = Paths.get(inputDir);
         NaiveBayes naiveBayes = NaiveBayes.getInstance();
         naiveBayes.clearInstance();
 
-        try {
-            naiveBayes.train(trainDirectory.listFiles());
-        } catch (IOException e) {
-            e.printStackTrace();
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(trainDirectory)) {
+            try {
+                naiveBayes.train(stream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException | DirectoryIteratorException e) {
+            System.err.println(e);
         }
 
         CSVWriter.writeCsvFile("outputFile_timed.banter", naiveBayes.getHamHash(), naiveBayes.getTrainHamDataTotal(),
@@ -38,7 +43,7 @@ public class testTiming {
 
         final long startTimeTest = System.currentTimeMillis();
 
-        File test = new File(inputFile);
+        Path test = Paths.get(inputFile);
 
         try {
             naiveBayes.getDataFromCSV("outputFile_timed.banter");

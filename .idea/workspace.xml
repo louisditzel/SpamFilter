@@ -3,7 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="c303ba80-03fb-4835-b025-9fcc2af53d09" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CSVReader.java" afterPath="$PROJECT_DIR$/src/CSVReader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CSVWriter.java" afterPath="$PROJECT_DIR$/src/CSVWriter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/NaiveBayes.java" afterPath="$PROJECT_DIR$/src/NaiveBayes.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/filter.java" afterPath="$PROJECT_DIR$/src/filter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/crossValidate.java" afterPath="$PROJECT_DIR$/test/crossValidate.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/testFilter.java" afterPath="$PROJECT_DIR$/test/testFilter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/testTiming.java" afterPath="$PROJECT_DIR$/test/testTiming.java" />
     </list>
     <ignored path="Spam.iws" />
@@ -26,11 +31,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="filter.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="filter.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/filter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="38" column="20" selection-start-line="38" selection-start-column="20" selection-end-line="38" selection-end-column="20" />
+            <state vertical-scroll-proportion="0.5597484">
+              <caret line="35" column="22" selection-start-line="35" selection-start-column="22" selection-end-line="35" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -42,7 +47,7 @@
         <entry file="file://$PROJECT_DIR$/src/NaiveBayes.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="158" column="55" selection-start-line="158" selection-start-column="55" selection-end-line="158" selection-end-column="55" />
+              <caret line="91" column="48" selection-start-line="91" selection-start-column="48" selection-end-line="91" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -50,32 +55,8 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="testFilter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/testFilter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="144" column="0" selection-start-line="144" selection-start-column="0" selection-end-line="160" selection-end-column="47" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="testTiming.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/test/testTiming.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.49685535">
-              <caret line="42" column="13" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="outputFile_timed.banter" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/outputFile_timed.banter">
+      <file leaf-file-name="outputFile_junit.banter" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/outputFile_junit.banter">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -84,14 +65,36 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="testFilter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/testFilter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="120" column="9" selection-start-line="120" selection-start-column="9" selection-end-line="120" selection-end-column="9" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="testTiming.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/testTiming.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="41" column="29" selection-start-line="41" selection-start-column="29" selection-end-line="41" selection-end-column="29" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="crossValidate.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/crossValidate.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="77" column="28" selection-start-line="77" selection-start-column="28" selection-end-line="77" selection-end-column="28" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <caret line="30" column="41" selection-start-line="0" selection-start-column="0" selection-end-line="108" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -100,7 +103,7 @@
         <entry file="file://$PROJECT_DIR$/src/CSVWriter.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+              <caret line="48" column="75" selection-start-line="48" selection-start-column="75" selection-end-line="48" selection-end-column="75" />
               <folding />
             </state>
           </provider>
@@ -110,17 +113,7 @@
         <entry file="file://$PROJECT_DIR$/src/CSVReader.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="outputFile.banter" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/outputFile.banter">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="12" column="3" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
+              <caret line="97" column="10" selection-start-line="97" selection-start-column="10" selection-end-line="97" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -161,14 +154,14 @@
         <option value="$PROJECT_DIR$/src/com/ml/spam/filter.java" />
         <option value="$PROJECT_DIR$/test/PracticeTest.java" />
         <option value="$PROJECT_DIR$/test/TestNaiveBayes.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/filter.java" />
+        <option value="$PROJECT_DIR$/test/testTiming.java" />
+        <option value="$PROJECT_DIR$/test/crossValidate.java" />
         <option value="$PROJECT_DIR$/src/CSVWriter.java" />
         <option value="$PROJECT_DIR$/src/CSVReader.java" />
-        <option value="$PROJECT_DIR$/src/filter.java" />
-        <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/test/testFilter.java" />
         <option value="$PROJECT_DIR$/src/NaiveBayes.java" />
-        <option value="$PROJECT_DIR$/test/crossValidate.java" />
-        <option value="$PROJECT_DIR$/test/testTiming.java" />
+        <option value="$PROJECT_DIR$/test/testFilter.java" />
       </list>
     </option>
   </component>
@@ -287,7 +280,7 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="FullScreen" value="true" />
   </component>
-  <component name="RunManager" selected="JUnit.testTiming">
+  <component name="RunManager" selected="JUnit.testFilter">
     <configuration default="false" name="Train" type="Application" factoryName="Application" temporary="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="filter" />
@@ -636,9 +629,9 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.testTiming" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.crossValidate" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.testFilter" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.testFilter" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.testTiming" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.crossValidate" />
         <item index="3" class="java.lang.String" itemvalue="Application.Train" />
         <item index="4" class="java.lang.String" itemvalue="JUnit.All in Spam" />
       </list>
@@ -727,38 +720,44 @@
       <option name="project" value="LOCAL" />
       <updated>1449142076313</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Fix timing test">
+      <created>1449142273657</created>
+      <option name="number" value="00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1449142273657</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="crossValidate - 2015.12.03 at 01h 06m 26s.xml">
-      <configuration name="crossValidate" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="crossValidate - 2015.12.03 at 11h 25m 33s.xml">
-      <configuration name="crossValidate" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="testFilter - 2015.12.02 at 16h 05m 15s.xml">
+    <history-entry file="testFilter - 2015.12.03 at 13h 21m 48s.xml">
       <configuration name="testFilter" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="testFilter - 2015.12.03 at 00h 10m 57s.xml">
+    <history-entry file="testFilter - 2015.12.03 at 13h 30m 17s.xml">
       <configuration name="testFilter" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="testFilter - 2015.12.03 at 00h 13m 55s.xml">
+    <history-entry file="testFilter - 2015.12.03 at 14h 01m 03s.xml">
       <configuration name="testFilter" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="testFilter - 2015.12.03 at 00h 14m 21s.xml">
+    <history-entry file="testFilter - 2015.12.03 at 14h 02m 48s.xml">
       <configuration name="testFilter" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="testFilter - 2015.12.03 at 00h 16m 42s.xml">
+    <history-entry file="testFilter - 2015.12.03 at 14h 03m 31s.xml">
       <configuration name="testFilter" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="testTiming - 2015.12.03 at 00h 38m 06s.xml">
-      <configuration name="testTiming" configurationId="JUnit" />
+    <history-entry file="testFilter - 2015.12.03 at 14h 04m 43s.xml">
+      <configuration name="testFilter" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="testTiming - 2015.12.03 at 00h 46m 32s.xml">
-      <configuration name="testTiming" configurationId="JUnit" />
+    <history-entry file="testFilter - 2015.12.03 at 14h 05m 05s.xml">
+      <configuration name="testFilter" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="testTiming - 2015.12.03 at 11h 27m 08s.xml">
+    <history-entry file="testFilter - 2015.12.03 at 14h 06m 27s.xml">
+      <configuration name="testFilter" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="testFilter - 2015.12.03 at 14h 07m 01s.xml">
+      <configuration name="testFilter" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="testTiming - 2015.12.03 at 13h 25m 29s.xml">
       <configuration name="testTiming" configurationId="JUnit" />
     </history-entry>
   </component>
@@ -770,10 +769,10 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934928" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934928" sideWeight="0.503125" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934928" sideWeight="0.50625" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32934928" sideWeight="0.496875" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32934928" sideWeight="0.49375" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934928" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24609375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -816,7 +815,8 @@
     <MESSAGE value="Cross validation now shows ham and spam results separately" />
     <MESSAGE value="Tokenize emails with more than just a space as delimiters." />
     <MESSAGE value="New timing test" />
-    <option name="LAST_COMMIT_MESSAGE" value="New timing test" />
+    <MESSAGE value="Fix timing test" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix timing test" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -863,9 +863,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1200,26 +1198,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CSVWriter.java">
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_60.jdk/Contents/Home/src.zip!/java/io/File.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.49056605">
+          <caret line="153" column="10" selection-start-line="153" selection-start-column="7" selection-end-line="153" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CSVReader.java">
+    <entry file="file://$PROJECT_DIR$/test/testTiming.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/testFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="144" column="0" selection-start-line="144" selection-start-column="0" selection-end-line="160" selection-end-column="47" />
+          <caret line="41" column="29" selection-start-line="41" selection-start-column="29" selection-end-line="41" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1228,26 +1218,50 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/outputFile_timed.banter">
       <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="685.55554">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CSVReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="97" column="10" selection-start-line="97" selection-start-column="10" selection-end-line="97" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CSVWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="48" column="75" selection-start-line="48" selection-start-column="75" selection-end-line="48" selection-end-column="75" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/outputFile_junit.banter">
+      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/filter.java">
+    <entry file="file://$PROJECT_DIR$/src/NaiveBayes.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="38" column="20" selection-start-line="38" selection-start-column="20" selection-end-line="38" selection-end-column="20" />
+          <caret line="91" column="48" selection-start-line="91" selection-start-column="48" selection-end-line="91" selection-end-column="48" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/NaiveBayes.java">
+    <entry file="file://$PROJECT_DIR$/test/testFilter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="158" column="55" selection-start-line="158" selection-start-column="55" selection-end-line="158" selection-end-column="55" />
+          <caret line="120" column="9" selection-start-line="120" selection-start-column="9" selection-end-line="120" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1257,17 +1271,15 @@
     <entry file="file://$PROJECT_DIR$/test/crossValidate.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="77" column="28" selection-start-line="77" selection-start-column="28" selection-end-line="77" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <caret line="30" column="41" selection-start-line="0" selection-start-column="0" selection-end-line="108" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/testTiming.java">
+    <entry file="file://$PROJECT_DIR$/src/filter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.49685535">
-          <caret line="42" column="13" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.5597484">
+          <caret line="35" column="22" selection-start-line="35" selection-start-column="22" selection-end-line="35" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

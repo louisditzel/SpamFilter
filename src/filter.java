@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.*;
 import java.util.Iterator;
 
 public class filter {
@@ -10,25 +11,29 @@ public class filter {
 
         switch (args[0]) {
             case "-train":
-                File trainDirectory = new File(args[1]);
+                Path trainDirectory = Paths.get(args[1]);
                 train(trainDirectory, naiveBayes);
                 break;
             case "-test":
-                File testFile = new File(args[1]);
+                Path testFile = Paths.get(args[1]);
                 test(testFile, naiveBayes);
                 break;
             default:
-                testFile = new File(args[0]);
+                testFile = Paths.get(args[0]);
                 test(testFile, naiveBayes);
                 break;
         }
     }
 
-    public static void train(File trainDirectory, NaiveBayes naiveBayes) {
-        try {
-            naiveBayes.train(trainDirectory.listFiles());
-        } catch (IOException e) {
-            e.printStackTrace();
+    public static void train(Path trainDirectory, NaiveBayes naiveBayes) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(trainDirectory)) {
+            try {
+                naiveBayes.train(stream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException | DirectoryIteratorException e) {
+            System.err.println(e);
         }
 
         CSVWriter.writeCsvFile("outputFile.banter", naiveBayes.getHamHash(), naiveBayes.getTrainHamDataTotal(),
@@ -36,7 +41,7 @@ public class filter {
                 naiveBayes.getNumHamFiles(), naiveBayes.getNumSpamFiles());
     }
 
-    public static void test(File testFile, NaiveBayes naiveBayes) {
+    public static void test(Path testFile, NaiveBayes naiveBayes) {
         try {
             naiveBayes.getDataFromCSV("outputFile.banter");
         } catch (IOException e) {

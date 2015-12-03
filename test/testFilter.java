@@ -3,6 +3,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,16 +19,13 @@ public class testFilter {
 
     @Test
     public void testFiles() {
-        File trainDirectorySuccess = new File(inputDirSuccess);
-        Assert.assertTrue(trainDirectorySuccess.exists());
+        Path trainDirectorySuccess = Paths.get(inputDirSuccess);
+        Assert.assertTrue(Files.exists(trainDirectorySuccess));
 
-        File testFileSuccess = new File(inputFileSuccess);
-        Assert.assertTrue(testFileSuccess.exists());
+        Path testFileSuccess = Paths.get(inputFileSuccess);
+        Assert.assertTrue(Files.exists(testFileSuccess));
 
-        Assert.assertFalse(testFileSuccess.isDirectory());
-
-        File fileFail = new File(inputFileFail);
-        Assert.assertFalse(fileFail.exists());
+        Assert.assertFalse(Files.isDirectory(testFileSuccess));
     }
 
     @Test
@@ -40,14 +38,18 @@ public class testFilter {
 
     @Test
     public void testTrainingDataCreation() {
-        File trainDirectory = new File(inputDirSuccess);
+        Path trainDirectory = Paths.get(inputDirSuccess);
         NaiveBayes naiveBayes = NaiveBayes.getInstance();
         naiveBayes.clearInstance();
 
-        try {
-            naiveBayes.train(trainDirectory.listFiles());
-        } catch (IOException e) {
-            e.printStackTrace();
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(trainDirectory)) {
+            try {
+                naiveBayes.train(stream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException | DirectoryIteratorException e) {
+            System.err.println(e);
         }
 
         HashMap<String, Integer> testTrainHamData = new HashMap<>();
@@ -79,13 +81,17 @@ public class testFilter {
 
     @Test
     public void testCSVCreation() {
-        File trainDirectory = new File(inputDirSuccess);
+        Path trainDirectory = Paths.get(inputDirSuccess);
         NaiveBayes naiveBayes = NaiveBayes.getInstance();
 
-        try {
-            naiveBayes.train(trainDirectory.listFiles());
-        } catch (IOException e) {
-            e.printStackTrace();
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(trainDirectory)) {
+            try {
+                naiveBayes.train(stream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException | DirectoryIteratorException e) {
+            System.err.println(e);
         }
 
         HashMap<String, Integer> trainHamData = (HashMap<String, Integer>) naiveBayes.getHamHash().clone();
@@ -122,17 +128,21 @@ public class testFilter {
 
     @Test
     public void testTestOutput() {
-        File trainDirectory = new File(inputDirSuccess);
-        File test1 = new File(inputTestDirSuccess + "1.txt");
-        File test2 = new File(inputTestDirSuccess + "2.txt");
-        File test3 = new File(inputTestDirSuccess + "3.txt");
+        Path trainDirectory = Paths.get(inputDirSuccess);
+        Path test1 = Paths.get(inputTestDirSuccess + "1.txt");
+        Path test2 = Paths.get(inputTestDirSuccess + "2.txt");
+        Path test3 = Paths.get(inputTestDirSuccess + "3.txt");
         NaiveBayes naiveBayes = NaiveBayes.getInstance();
         naiveBayes.clearInstance();
 
-        try {
-            naiveBayes.train(trainDirectory.listFiles());
-        } catch (IOException e) {
-            e.printStackTrace();
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(trainDirectory)) {
+            try {
+                naiveBayes.train(stream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException | DirectoryIteratorException e) {
+            System.err.println(e);
         }
 
         CSVWriter.writeCsvFile("outputFile_junit.banter", naiveBayes.getHamHash(), naiveBayes.getTrainHamDataTotal(),
@@ -143,7 +153,6 @@ public class testFilter {
 
 
         try {
-            //naiveBayes.train(trainDirectory.listFiles());
             naiveBayes.getDataFromCSV("outputFile_junit.banter");
         } catch (IOException e) {
             e.printStackTrace();
