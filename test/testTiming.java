@@ -41,7 +41,7 @@ public class testTiming {
         File test = new File(inputFile);
 
         try {
-            naiveBayes.getDataFromCSV("outputFile_junit.banter");
+            naiveBayes.getDataFromCSV("outputFile_timed.banter");
         } catch (IOException e) {
             e.printStackTrace();
         }
