@@ -94,35 +94,28 @@ public class testFilter {
             System.err.println(e);
         }
 
-        HashMap<String, Integer> trainHamData = (HashMap<String, Integer>) naiveBayes.getHamHash().clone();
-        HashMap<String, Integer> trainSpamData = (HashMap<String, Integer>) naiveBayes.getSpamHash().clone();
+        HashMap<String, Float> trainVocabData = (HashMap<String, Float>) naiveBayes.getVocabList().clone();
 
-        CSVWriter.writeCsvFile("outputFile_junit.banter", naiveBayes.getHamHash(), naiveBayes.getTrainHamDataTotal(),
-                naiveBayes.getSpamHash(), naiveBayes.getTrainSpamDataTotal(), naiveBayes.getVocabList(),
+        CSVWriter.writeCsvFile("outputFile_junit.banter",  naiveBayes.getVocabList(),
                 naiveBayes.getNumHamFiles(), naiveBayes.getNumSpamFiles());
 
         naiveBayes.clearInstance();
 
         try {
-            //naiveBayes.train(trainDirectory.listFiles());
             naiveBayes.getDataFromCSV("outputFile_junit.banter");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        HashMap<String, Integer> csvHamData = naiveBayes.getHamHash();
-        HashMap<String, Integer> csvSpamData = naiveBayes.getSpamHash();
+        HashMap<String, Float> csvVocabData = naiveBayes.getVocabList();
 
-        Assert.assertTrue(trainHamData.size() == csvHamData.size());
-        Assert.assertTrue(trainSpamData.size() == csvSpamData.size());
 
-        for (Map.Entry<String, Integer> entry : trainHamData.entrySet()) {
-            Assert.assertTrue(csvHamData.entrySet().contains(entry));
+        Assert.assertTrue(trainVocabData.size() == csvVocabData.size());
+
+        for (Map.Entry<String, Float> entry : csvVocabData.entrySet()) {
+            Assert.assertTrue(csvVocabData.entrySet().contains(entry));
         }
 
-        for (Map.Entry<String, Integer> entry : trainSpamData.entrySet()) {
-            Assert.assertTrue(csvSpamData.entrySet().contains(entry));
-        }
 
     }
 
@@ -145,8 +138,7 @@ public class testFilter {
             System.err.println(e);
         }
 
-        CSVWriter.writeCsvFile("outputFile_junit.banter", naiveBayes.getHamHash(), naiveBayes.getTrainHamDataTotal(),
-                naiveBayes.getSpamHash(), naiveBayes.getTrainSpamDataTotal(), naiveBayes.getVocabList(),
+        CSVWriter.writeCsvFile("outputFile_junit.banter",  naiveBayes.getVocabList(),
                 naiveBayes.getNumHamFiles(), naiveBayes.getNumSpamFiles());
 
         naiveBayes.clearInstance();

@@ -83,11 +83,11 @@ public class NaiveBayes {
     public void getDataFromCSV(String fileName) throws IOException{
         CSVReader reader = CSVReader.getInstance();
         reader.readCSVFile(fileName);
-        trainHamData = reader.getHamHash();
-        trainSpamData = reader.getSpamHash();
+//        trainHamData = reader.getHamHash();
+//        trainSpamData = reader.getSpamHash();
         trainVocabulary = reader.getVocabList();
-        trainHamDataTotal = reader.getTrainHamDataTotal();
-        trainSpamDataTotal = reader.getTrainSpamDataTotal();
+//        trainHamDataTotal = reader.getTrainHamDataTotal();
+//        trainSpamDataTotal = reader.getTrainSpamDataTotal();
         numHamFiles = reader.getNumHamFiles();
         numSpamFiles = reader.getNumSpamFiles();
     }

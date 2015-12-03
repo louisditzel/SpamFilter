@@ -36,8 +36,7 @@ public class filter {
             System.err.println(e);
         }
 
-        CSVWriter.writeCsvFile("outputFile.banter", naiveBayes.getHamHash(), naiveBayes.getTrainHamDataTotal(),
-                naiveBayes.getSpamHash(), naiveBayes.getTrainSpamDataTotal(), naiveBayes.getVocabList(),
+        CSVWriter.writeCsvFile("outputFile.banter",  naiveBayes.getVocabList(),
                 naiveBayes.getNumHamFiles(), naiveBayes.getNumSpamFiles());
     }
 

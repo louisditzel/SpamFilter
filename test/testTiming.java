@@ -31,8 +31,7 @@ public class testTiming {
             System.err.println(e);
         }
 
-        CSVWriter.writeCsvFile("outputFile_timed.banter", naiveBayes.getHamHash(), naiveBayes.getTrainHamDataTotal(),
-                naiveBayes.getSpamHash(), naiveBayes.getTrainSpamDataTotal(), naiveBayes.getVocabList(),
+        CSVWriter.writeCsvFile("outputFile_timed.banter",  naiveBayes.getVocabList(),
                 naiveBayes.getNumHamFiles(), naiveBayes.getNumSpamFiles());
 
         final long endTimeTrain = System.currentTimeMillis();
