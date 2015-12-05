@@ -96,13 +96,13 @@ public class testFilter {
 
         HashMap<String, Float> trainVocabData = (HashMap<String, Float>) naiveBayes.getVocabList().clone();
 
-        CSVWriter.writeCsvFile("outputFile_junit.banter",  naiveBayes.getVocabList(),
+        BanterWriter.writeBanterFile("outputFile_junit.banter",  naiveBayes.getVocabList(),
                 naiveBayes.getNumHamFiles(), naiveBayes.getNumSpamFiles());
 
         naiveBayes.clearInstance();
 
         try {
-            naiveBayes.getDataFromCSV("outputFile_junit.banter");
+            naiveBayes.getDataFromBanter("outputFile_junit.banter");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -138,14 +138,14 @@ public class testFilter {
             System.err.println(e);
         }
 
-        CSVWriter.writeCsvFile("outputFile_junit.banter",  naiveBayes.getVocabList(),
+        BanterWriter.writeBanterFile("outputFile_junit.banter",  naiveBayes.getVocabList(),
                 naiveBayes.getNumHamFiles(), naiveBayes.getNumSpamFiles());
 
         naiveBayes.clearInstance();
 
 
         try {
-            naiveBayes.getDataFromCSV("outputFile_junit.banter");
+            naiveBayes.getDataFromBanter("outputFile_junit.banter");
         } catch (IOException e) {
             e.printStackTrace();
         }

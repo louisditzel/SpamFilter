@@ -31,7 +31,7 @@ public class testTiming {
             System.err.println(e);
         }
 
-        CSVWriter.writeCsvFile("outputFile_timed.banter",  naiveBayes.getVocabList(),
+        BanterWriter.writeBanterFile("outputFile_timed.banter",  naiveBayes.getVocabList(),
                 naiveBayes.getNumHamFiles(), naiveBayes.getNumSpamFiles());
 
         final long endTimeTrain = System.currentTimeMillis();
@@ -45,7 +45,7 @@ public class testTiming {
         Path test = Paths.get(inputFile);
 
         try {
-            naiveBayes.getDataFromCSV("outputFile_timed.banter");
+            naiveBayes.getDataFromBanter("outputFile_timed.banter");
         } catch (IOException e) {
             e.printStackTrace();
         }
