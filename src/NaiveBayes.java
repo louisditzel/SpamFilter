@@ -1,14 +1,9 @@
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.regex.Pattern;
 
 /**
  * Created by louis on 23/11/2015.
@@ -81,9 +76,9 @@ public class NaiveBayes {
         }
     }
 
-    public void getDataFromCSV(String fileName) throws IOException{
-        CSVReader reader = CSVReader.getInstance();
-        reader.readCSVFile(fileName);
+    public void getDataFromBanter(String fileName) throws IOException{
+        BanterReader reader = BanterReader.getInstance();
+        reader.readBanterFile(fileName);
 //        trainHamData = reader.getHamHash();
 //        trainSpamData = reader.getSpamHash();
         trainVocabulary = reader.getVocabList();
@@ -165,7 +160,9 @@ public class NaiveBayes {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String[] words = preProcess(fileContents);
+        CSVReader stopWordReader = CSVReader.getInstance();
+        stopWordReader.readCSVFile("stopwords.csv");
+        String[] words = preProcess(fileContents, stopWordReader.getStopList());
         words = stemWordList(words);
         for (String word : words) {
             if (word.isEmpty())
@@ -197,9 +194,17 @@ public class NaiveBayes {
         return (hamProbability/spamProbability);
     }
 
-    private String[] preProcess(String fileContents) {
+    private String[] preProcess(String fileContents, ArrayList<String> stopWordList) {
         fileContents = fileContents.replaceAll("Content-Disposition: attachment;[.]*------=_NextPart", "");
-        return fileContents.trim().split("[^a-zA-Z0-9_\\-'!$\\.]+");
+        String[] trimmedWords = fileContents.trim().split("[^a-zA-Z0-9_\\-'!$\\.]+");
+
+        ArrayList<String> words = new ArrayList<>();
+        for (String word : trimmedWords){
+            if (!stopWordList.contains(word.toLowerCase())){
+                words.add(word);
+            }
+        }
+        return words.toArray(new String[words.size()]);
     }
 
     private String[] stemWordList(String[] wordList) {

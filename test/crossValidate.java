@@ -124,7 +124,7 @@ public class crossValidate {
         }
 
 
-        CSVWriter.writeCsvFile("outputFile_crossvalid.banter", naiveBayes.getVocabList(),
+        BanterWriter.writeBanterFile("outputFile_crossvalid.banter", naiveBayes.getVocabList(),
                 naiveBayes.getNumHamFiles(), naiveBayes.getNumSpamFiles());
 
     }
@@ -135,7 +135,7 @@ public class crossValidate {
         numIncorrect[1] = 0;
         System.out.println("Testing files...");
         try {
-            naiveBayes.getDataFromCSV("outputFile_crossvalid.banter");
+            naiveBayes.getDataFromBanter("outputFile_crossvalid.banter");
         } catch (IOException e) {
             e.printStackTrace();
         }
