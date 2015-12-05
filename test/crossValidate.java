@@ -22,24 +22,38 @@ public class crossValidate {
 
         int sumHam = 0;
         int sumSpam = 0;
+        int[][] numIncorrect = new int[10][2];
         for (int i = 0; i < 10; i++) {
             naiveBayes.clearInstance();
             System.out.println("Index = " + i);
             trainFiles(i, naiveBayes);
             naiveBayes.clearInstance();
-            int[] numIncorrect = testFiles(i, naiveBayes);
-            System.out.println("Number incorrect ham = " + numIncorrect[0]);
-            System.out.println("Number incorrect spam = " + numIncorrect[1]);
-            sumHam += numIncorrect[0];
-            sumSpam += numIncorrect[1];
+            numIncorrect[i] = testFiles(i, naiveBayes);
+            System.out.println("Number incorrect ham = " + numIncorrect[i][0]);
+            System.out.println("Number incorrect spam = " + numIncorrect[i][1]);
+            sumHam += numIncorrect[i][0];
+            sumSpam += numIncorrect[i][1];
         }
         double averageHam = (sumHam - 1) / 10.0;
         double averageSpam = sumSpam / 10.0;
+        double varianceHam = 0.0;
+        double varianceSpam = 0.0;
+        for (int i = 0; i < 10; i++) {
+            varianceHam += Math.pow(numIncorrect[i][0] - averageHam, 2);
+            varianceSpam += Math.pow(numIncorrect[i][1] - averageSpam, 2);
+        }
+        varianceHam /= 10;
+        varianceSpam /= 10;
+
+        double standardDeviationHam = Math.sqrt(varianceHam);
+        double standardDeviationSpam = Math.sqrt(varianceSpam);
         System.out.println("Total number files = " + (totNumFiles - 1));
         System.out.println("Total number incorrect ham = " + (sumHam - 1));
         System.out.println("Total number incorrect spam = " + sumSpam);
         System.out.println("Average number incorrect ham per iteration = " + averageHam);
         System.out.println("Average number incorrect spam per iteration = " + averageSpam);
+        System.out.println("Standard deviation of ham = " + standardDeviationHam);
+        System.out.println("Standard deviation of spam = " + standardDeviationSpam);
     }
 
     private void setUpFiles() {
@@ -143,7 +157,7 @@ public class crossValidate {
             for (Path file : stream) {
                 naiveBayes.clearInstanceForTest();
                 String out = naiveBayes.test(file);
-                if (!file.getFileName().toString().contains(out.trim()))
+                if (!file.getFileName().toString().contains(out.trim())) {
                     switch (out.trim()) {
                         case "ham":
                             numIncorrect[1]++;
@@ -154,6 +168,8 @@ public class crossValidate {
                         default:
                             System.out.println("Error: Not ham or spam");
                     }
+//                    System.out.println(file.getFileName().toString());
+                }
             }
         } catch (IOException e) {
             System.err.println(e);
