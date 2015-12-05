@@ -166,6 +166,7 @@ public class NaiveBayes {
         }
         String[] words = preProcess(fileContents);
         for (String word : words) {
+            word = word.toLowerCase();
             if (word.isEmpty())
                 break;
             if (!data.containsKey(word))
@@ -196,7 +197,7 @@ public class NaiveBayes {
     }
 
     private String[] preProcess(String fileContents) {
-        fileContents.replaceAll("Content-Disposition: attachment;.*------=_NextPart", "");
+        fileContents = fileContents.replaceAll("Content-Disposition: attachment;[.]*------=_NextPart", "");
         return fileContents.trim().split("[^a-zA-Z0-9_\\-'!$\\.]+");
     }
 }

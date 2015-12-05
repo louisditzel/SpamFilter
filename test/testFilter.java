@@ -57,14 +57,14 @@ public class testFilter {
         HashMap<String, Integer> trainHamData = naiveBayes.getHamHash();
         HashMap<String, Integer> trainSpamData = naiveBayes.getSpamHash();
 
-        testTrainHamData.put("Clay", 1);
-        testTrainHamData.put("Bob", 1);
-        testTrainHamData.put("Rolex", 1);
-        testTrainHamData.put("Alice", 1);
-        testTrainHamData.put("Elisabeth", 1);
-        testTrainHamData.put("David", 1);
+        testTrainHamData.put("clay", 1);
+        testTrainHamData.put("bob", 1);
+        testTrainHamData.put("rolex", 1);
+        testTrainHamData.put("alice", 1);
+        testTrainHamData.put("elisabeth", 1);
+        testTrainHamData.put("david", 1);
 
-        testTrainSpamData.put("Rolex", 5);
+        testTrainSpamData.put("rolex", 5);
 
         Assert.assertTrue(testTrainHamData.size() == trainHamData.size());
         Assert.assertTrue(testTrainSpamData.size() == trainSpamData.size());
