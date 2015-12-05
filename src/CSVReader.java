@@ -1,18 +1,18 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
+/**
+ * Created by Oscar on 05/12/2015.
+ */
 public class CSVReader {
-
     private static CSVReader instance = null;
-    private HashMap<String, Float> trainVocabulary;
-    private int  numHamFiles, numSpamFiles;
+    private ArrayList<String> stopList;
 
     protected CSVReader() {
-        trainVocabulary = new HashMap<>();
-        numHamFiles = 0;
-        numSpamFiles = 0;
+        stopList = new ArrayList<>();
     }
 
     public static CSVReader getInstance() {
@@ -27,38 +27,8 @@ public class CSVReader {
         try {
             fileReader = new BufferedReader(new FileReader(fileName));
             String line = fileReader.readLine();
-
-            if (!line.equals("TRAIN HAM")) {
-                throw new IOException("File header incorrect\n");
-            }
-
-            line = fileReader.readLine();
-            numHamFiles = Integer.valueOf(line);
-
-            line = fileReader.readLine();
-
-            if (!line.equals("TRAIN SPAM")) {
-                throw new IOException("File header incorrect\n");
-            }
-
-            line = fileReader.readLine();
-            numSpamFiles = Integer.valueOf(line);
-
-            line = fileReader.readLine();
-
-            if (!line.equals("TRAIN VOCAB")) {
-                throw new IOException("File header incorrect\n");
-            }
-
-            //fill vocab list
-            line = fileReader.readLine();
-            while (!line.equals("END OF BANTER")) {
-                String[] pair = line.split(" ");
-                if (pair.length > 0) {
-                    trainVocabulary.put(pair[0], Float.valueOf(pair[1]));
-                }
-                line = fileReader.readLine();
-            }
+            String[] words = line.split(", ");
+            stopList = new ArrayList<>(Arrays.asList(words));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -69,18 +39,9 @@ public class CSVReader {
                 e.printStackTrace();
             }
         }
-
     }
 
-    public HashMap<String, Float> getVocabList(){
-        return trainVocabulary;
-    }
-
-    public int getNumHamFiles() {
-        return numHamFiles;
-    }
-
-    public int getNumSpamFiles() {
-        return numSpamFiles;
+    public ArrayList<String> getStopList(){
+        return stopList;
     }
 }
