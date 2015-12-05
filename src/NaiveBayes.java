@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -165,8 +166,8 @@ public class NaiveBayes {
             e.printStackTrace();
         }
         String[] words = preProcess(fileContents);
+        words = stemWordList(words);
         for (String word : words) {
-            word = word.toLowerCase();
             if (word.isEmpty())
                 break;
             if (!data.containsKey(word))
@@ -199,5 +200,34 @@ public class NaiveBayes {
     private String[] preProcess(String fileContents) {
         fileContents = fileContents.replaceAll("Content-Disposition: attachment;[.]*------=_NextPart", "");
         return fileContents.trim().split("[^a-zA-Z0-9_\\-'!$\\.]+");
+    }
+
+    private String[] stemWordList(String[] wordList) {
+        Stemmer s = new Stemmer();
+
+        for (int i=0; i<wordList.length; i++){
+            String word = wordList[i];
+            //System.out.println(word);
+            char[] charList = word.toCharArray();
+
+            boolean properWord = true;
+
+            for (char ch : charList){
+                if (!Character.isLetter(ch)) {
+                    properWord = false;
+                    break;
+                }
+                ch = Character.toLowerCase(ch);
+                s.add(ch);
+            }
+
+            // stem first to clear the buffer in s even though we may not use it
+            s.stem();
+            if (!properWord) continue;
+            String u = s.toString();
+            wordList[i] = u;
+        }
+
+        return wordList;
     }
 }
