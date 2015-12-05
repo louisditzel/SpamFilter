@@ -196,7 +196,7 @@ public class NaiveBayes {
 
     private String[] preProcess(String fileContents, ArrayList<String> stopWordList) {
         fileContents = fileContents.replaceAll("Content-Disposition: attachment;[.]*------=_NextPart", "");
-        String[] trimmedWords = fileContents.trim().split("[^a-zA-Z0-9_\\-'!$\\.]+");
+        String[] trimmedWords = fileContents.trim().split("[^a-zA-Z0-9_'!@\\-\\$\\.]+");
 
         ArrayList<String> words = new ArrayList<>();
         for (String word : trimmedWords){
