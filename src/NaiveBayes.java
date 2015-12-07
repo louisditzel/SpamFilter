@@ -184,7 +184,7 @@ public class NaiveBayes {
     private float getProbabilityOfWordGivenClass(String word, Class cl) {
         float probability;
         if (cl == Class.Ham) {
-            probability = (float) (trainHamData.getOrDefault(word, 0) + 1) / (float) (trainHamDataTotal + trainVocabulary.size());
+            probability = 1.4f * (float) (trainHamData.getOrDefault(word, 0) + 1) / (float) (trainHamDataTotal + trainVocabulary.size());
         } else {
             probability = (float) (trainSpamData.getOrDefault(word, 0) + 1) / (float) (trainSpamDataTotal + trainVocabulary.size());
         }
@@ -197,7 +197,7 @@ public class NaiveBayes {
 
     private String[] preProcess(String fileContents, ArrayList<String> stopWordList) {
         fileContents = fileContents.replaceAll("Content-Disposition: attachment;[.]*------=_NextPart", "");
-        String[] trimmedWords = fileContents.trim().split("[^a-zA-Z0-9_\\-'!$\\.]+");
+        String[] trimmedWords = fileContents.trim().split("[^a-zA-Z0-9_'!@\\-\\$\\.]+");
 
         ArrayList<String> words = new ArrayList<>();
         for (String word : trimmedWords){

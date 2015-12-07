@@ -36,13 +36,13 @@ public class filter {
             System.err.println(e);
         }
 
-        CSVWriter.writeCsvFile("outputFile.banter",  naiveBayes.getVocabList(),
+        BanterWriter.writeBanterFile("outputFile.banter",  naiveBayes.getVocabList(),
                 naiveBayes.getNumHamFiles(), naiveBayes.getNumSpamFiles());
     }
 
     public static void test(Path testFile, NaiveBayes naiveBayes) {
         try {
-            naiveBayes.getDataFromCSV("outputFile.banter");
+            naiveBayes.getDataFromBanter("outputFile.banter");
         } catch (IOException e) {
             e.printStackTrace();
         }
