@@ -165,6 +165,7 @@ public class NaiveBayes {
         String[] words = preProcess(fileContents, stopWordReader.getStopList());
         words = stemWordList(words);
         for (String word : words) {
+            word = word.toLowerCase();
             if (word.isEmpty())
                 break;
             if (!data.containsKey(word))
@@ -200,6 +201,9 @@ public class NaiveBayes {
 
         ArrayList<String> words = new ArrayList<>();
         for (String word : trimmedWords){
+            if (word.matches("(\\d)*") || (word.length() < 2 && !word.matches("(a-zA-Z)*"))){
+                continue;
+            }
             if (!stopWordList.contains(word.toLowerCase())){
                 words.add(word);
             }
@@ -212,7 +216,6 @@ public class NaiveBayes {
 
         for (int i=0; i<wordList.length; i++){
             String word = wordList[i];
-            //System.out.println(word);
             char[] charList = word.toCharArray();
 
             boolean properWord = true;
