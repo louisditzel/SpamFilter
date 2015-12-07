@@ -15,7 +15,7 @@ class ValueComparator implements Comparator {
     // equals.
     @Override
     public int compare(Object a, Object b) {
-        if ((Float) base.get(a) >= (Float) base.get(b)) {
+        if ((Double) base.get(a) >= (Double) base.get(b)) {
             return -1;
         } else {
             return 1;

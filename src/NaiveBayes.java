@@ -14,9 +14,9 @@ public class NaiveBayes {
 
     private static NaiveBayes instance = null;
     private HashMap<String, Integer> trainHamData, trainSpamData, testWordData;
-    private HashMap<String, Float> trainVocabulary;
+    private HashMap<String, Double> trainVocabulary;
     private int trainHamDataTotal, trainSpamDataTotal, numHamFiles, numSpamFiles;
-    private float priorHam, priorSpam;
+    private double priorHam, priorSpam;
 
     protected NaiveBayes() {
         trainHamData = new HashMap<>();
@@ -62,28 +62,27 @@ public class NaiveBayes {
             } else if (trainFile.getFileName().toString().startsWith("spam")) {
                 numSpamFiles++;
                 addWordsFromFile(trainFile, trainSpamData, true, Class.Spam);
-            } else if (trainFile.getFileName().toString().equals(".DS_Store")) {
-            } else
+            } else if (!trainFile.getFileName().toString().equals(".DS_Store")) {
                 throw new IOException("Training filename (" + trainFile.getFileName() +
                         ") does not start with either ham or spam");
+            }
         }
         setClassPriors(numHamFiles, numSpamFiles);
 
 
-        for (Map.Entry<String, Float> entry : trainVocabulary.entrySet()) {
-            entry.setValue(wordLikelihoodRatio(getProbabilityOfWordGivenClass(entry.getKey(), Class.Ham),
-                    getProbabilityOfWordGivenClass(entry.getKey(), Class.Spam)));
+        for (Map.Entry<String, Double> entry : trainVocabulary.entrySet()) {
+            double probability = wordLikelihoodRatio(getProbabilityOfWordGivenClass(entry.getKey(), Class.Ham),
+                    getProbabilityOfWordGivenClass(entry.getKey(), Class.Spam));
+            if (isProbabilityInteresting(probability)) {
+                entry.setValue(probability);
+            }
         }
     }
 
     public void getDataFromBanter(String fileName) throws IOException{
         BanterReader reader = BanterReader.getInstance();
         reader.readBanterFile(fileName);
-//        trainHamData = reader.getHamHash();
-//        trainSpamData = reader.getSpamHash();
         trainVocabulary = reader.getVocabList();
-//        trainHamDataTotal = reader.getTrainHamDataTotal();
-//        trainSpamDataTotal = reader.getTrainSpamDataTotal();
         numHamFiles = reader.getNumHamFiles();
         numSpamFiles = reader.getNumSpamFiles();
     }
@@ -92,15 +91,15 @@ public class NaiveBayes {
         addWordsFromFile(testFile, testWordData, false, null);
         setClassPriors(numHamFiles, numSpamFiles);
 
-        double probability = 1;
+        double probability = 0;
 
-        for (Map.Entry<String, Float> entry : trainVocabulary.entrySet()) {
-            probability *= Math.pow((double) entry.getValue(), testWordData.getOrDefault(entry.getKey(), 0));
+        for (Map.Entry<String, Double> entry : trainVocabulary.entrySet()) {
+            probability += (entry.getValue() * testWordData.getOrDefault(entry.getKey(), 0));
         }
 
-        probability *= priorHam / priorSpam;
+        probability += Math.log(priorHam) - Math.log(priorSpam);
 
-        return probability >= 1 ? "ham\n" : "spam\n";
+        return probability >= 0 ? "ham\n" : "spam\n";
     }
 
     public void printTrainingData() {
@@ -126,16 +125,8 @@ public class NaiveBayes {
         return trainHamData;
     }
 
-    public HashMap<String, Float> getVocabList(){
+    public HashMap<String, Double> getVocabList(){
         return trainVocabulary;
-    }
-
-    public int getTrainHamDataTotal(){
-        return trainHamDataTotal;
-    }
-
-    public int getTrainSpamDataTotal(){
-        return trainSpamDataTotal;
     }
 
     public int getNumHamFiles() {
@@ -148,8 +139,8 @@ public class NaiveBayes {
 
     private void setClassPriors(int numHam, int numSpam) {
         int total = numHam + numSpam;
-        priorHam = (float) numHam / (float) total;
-        priorSpam = (float) numSpam / (float) total;
+        priorHam = (double) numHam / (double) total;
+        priorSpam = (double) numSpam / (double) total;
     }
 
     private void addWordsFromFile(Path trainFile, HashMap<String, Integer> data, boolean train, Class cl) {
@@ -176,23 +167,23 @@ public class NaiveBayes {
                 if (cl == Class.Ham) trainHamDataTotal++;
                 else trainSpamDataTotal++;
                 if (!trainVocabulary.containsKey(word))
-                    trainVocabulary.put(word, 0f);
+                    trainVocabulary.put(word, 0.0);
             }
         }
     }
 
-    private float getProbabilityOfWordGivenClass(String word, Class cl) {
-        float probability;
+    private double getProbabilityOfWordGivenClass(String word, Class cl) {
+        double probability;
         if (cl == Class.Ham) {
-            probability = 1.4f * (float) (trainHamData.getOrDefault(word, 0) + 1) / (float) (trainHamDataTotal + trainVocabulary.size());
+            probability =  (double) (trainHamData.getOrDefault(word, 0) + 1) / (double) (trainHamDataTotal + trainVocabulary.size());
         } else {
-            probability = (float) (trainSpamData.getOrDefault(word, 0) + 1) / (float) (trainSpamDataTotal + trainVocabulary.size());
+            probability = (double) (trainSpamData.getOrDefault(word, 0) + 1) / (double) (trainSpamDataTotal + trainVocabulary.size());
         }
         return probability;
     }
 
-    private float wordLikelihoodRatio (float hamProbability, float spamProbability) {
-        return (hamProbability/spamProbability);
+    private double wordLikelihoodRatio (double hamProbability, double spamProbability) {
+        return Math.log(hamProbability) - Math.log(spamProbability);
     }
 
     private String[] preProcess(String fileContents, ArrayList<String> stopWordList) {
@@ -210,6 +201,10 @@ public class NaiveBayes {
             words.add(word);
         }
         return words.toArray(new String[words.size()]);
+    }
+
+    private Boolean isProbabilityInteresting(Double probability) {
+        return (Math.pow((probability),2) >= Math.pow(0.0,2));
     }
 
     private String[] stemWordList(String[] wordList) {

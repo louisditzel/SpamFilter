@@ -4,13 +4,13 @@ import java.util.*;
 
 public class BanterWriter {
 
-    public static void writeBanterFile(String fileName, HashMap<String, Float> vocabList, int numHamFiles,
+    public static void writeBanterFile(String fileName, HashMap<String, Double> vocabList, int numHamFiles,
                                        int numSpamFiles) {
         FileWriter fileWriter = null;
 
-//        ValueComparator vc = new ValueComparator(vocabList);
-//        TreeMap<String, Float> sortedVocabList = new TreeMap<>(vc);
-//        sortedVocabList.putAll(vocabList);
+        ValueComparator vc = new ValueComparator(vocabList);
+        TreeMap<String, Double> sortedVocabList = new TreeMap<>(vc);
+        sortedVocabList.putAll(vocabList);
 
         try {
             fileWriter = new FileWriter(fileName);
@@ -27,8 +27,8 @@ public class BanterWriter {
 
 
             fileWriter.append("TRAIN VOCAB\n");
-//            for (Map.Entry<String, Float> entry : sortedVocabList.entrySet()) {
-            for (Map.Entry<String, Float> entry : vocabList.entrySet()) {
+            for (Map.Entry<String, Double> entry : sortedVocabList.entrySet()) {
+//            for (Map.Entry<String, Double> entry : vocabList.entrySet()) {
                 fileWriter.append(entry.getKey() + " " + entry.getValue());
                 fileWriter.append("\n");
             }

@@ -57,10 +57,10 @@ public class testFilter {
         HashMap<String, Integer> trainHamData = naiveBayes.getHamHash();
         HashMap<String, Integer> trainSpamData = naiveBayes.getSpamHash();
 
-        testTrainHamData.put("clay", 1);
+        testTrainHamData.put("clai", 1);
         testTrainHamData.put("bob", 1);
         testTrainHamData.put("rolex", 1);
-        testTrainHamData.put("alice", 1);
+        testTrainHamData.put("alic", 1);
         testTrainHamData.put("elisabeth", 1);
         testTrainHamData.put("david", 1);
 
@@ -107,12 +107,12 @@ public class testFilter {
             e.printStackTrace();
         }
 
-        HashMap<String, Float> csvVocabData = naiveBayes.getVocabList();
+        HashMap<String, Double> csvVocabData = naiveBayes.getVocabList();
 
 
         Assert.assertTrue(trainVocabData.size() == csvVocabData.size());
 
-        for (Map.Entry<String, Float> entry : csvVocabData.entrySet()) {
+        for (Map.Entry<String, Double> entry : csvVocabData.entrySet()) {
             Assert.assertTrue(csvVocabData.entrySet().contains(entry));
         }
 

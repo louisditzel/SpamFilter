@@ -6,7 +6,7 @@ import java.util.*;
 public class BanterReader {
 
     private static BanterReader instance = null;
-    private HashMap<String, Float> trainVocabulary;
+    private HashMap<String, Double> trainVocabulary;
     private int  numHamFiles, numSpamFiles;
 
     protected BanterReader() {
@@ -55,7 +55,7 @@ public class BanterReader {
             while (!line.equals("END OF BANTER")) {
                 String[] pair = line.split(" ");
                 if (pair.length > 0) {
-                    trainVocabulary.put(pair[0], Float.valueOf(pair[1]));
+                    trainVocabulary.put(pair[0], Double.valueOf(pair[1]));
                 }
                 line = fileReader.readLine();
             }
@@ -72,7 +72,7 @@ public class BanterReader {
 
     }
 
-    public HashMap<String, Float> getVocabList(){
+    public HashMap<String, Double> getVocabList(){
         return trainVocabulary;
     }
 
