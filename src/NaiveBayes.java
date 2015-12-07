@@ -175,7 +175,7 @@ public class NaiveBayes {
     private double getProbabilityOfWordGivenClass(String word, Class cl) {
         double probability;
         if (cl == Class.Ham) {
-            probability =  (double) (trainHamData.getOrDefault(word, 0) + 1) / (double) (trainHamDataTotal + trainVocabulary.size());
+            probability = 1.2 * (double) (trainHamData.getOrDefault(word, 0) + 1) / (double) (trainHamDataTotal + trainVocabulary.size());
         } else {
             probability = (double) (trainSpamData.getOrDefault(word, 0) + 1) / (double) (trainSpamDataTotal + trainVocabulary.size());
         }
