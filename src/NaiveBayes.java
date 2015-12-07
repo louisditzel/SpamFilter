@@ -201,12 +201,13 @@ public class NaiveBayes {
 
         ArrayList<String> words = new ArrayList<>();
         for (String word : trimmedWords){
-            if (word.matches("(\\d)*") || (word.length() < 2 && !word.matches("(a-zA-Z)*"))){
+            if (word.matches("(\\d)*")  || (word.length() <= 2 && !word.contains("!!"))){
                 continue;
             }
-            if (!stopWordList.contains(word.toLowerCase())){
-                words.add(word);
+            if (stopWordList.contains(word.toLowerCase())){
+                continue;
             }
+            words.add(word);
         }
         return words.toArray(new String[words.size()]);
     }
