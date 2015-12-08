@@ -14,6 +14,7 @@ public class NaiveBayes {
 
     private static NaiveBayes instance = null;
     private HashMap<String, Integer> trainHamData, trainSpamData, testWordData;
+    private HashSet<String> vocabList;
     private HashMap<String, Double> trainVocabulary;
     private int trainHamDataTotal, trainSpamDataTotal, numHamFiles, numSpamFiles;
     private double priorHam, priorSpam;
@@ -23,6 +24,7 @@ public class NaiveBayes {
         trainSpamData = new HashMap<>();
         testWordData = new HashMap<>();
         trainVocabulary = new HashMap<>();
+        vocabList = new HashSet<>();
         trainHamDataTotal = 0;
         trainSpamDataTotal = 0;
         numHamFiles = 0;
@@ -42,6 +44,7 @@ public class NaiveBayes {
         trainSpamData.clear();
         testWordData.clear();
         trainVocabulary.clear();
+        vocabList.clear();
         trainHamDataTotal = 0;
         trainSpamDataTotal = 0;
         numHamFiles = 0;
@@ -70,11 +73,11 @@ public class NaiveBayes {
         setClassPriors(numHamFiles, numSpamFiles);
 
 
-        for (Map.Entry<String, Double> entry : trainVocabulary.entrySet()) {
-            double probability = wordLikelihoodRatio(getProbabilityOfWordGivenClass(entry.getKey(), Class.Ham),
-                    getProbabilityOfWordGivenClass(entry.getKey(), Class.Spam));
+        for (String token : vocabList) {
+            double probability = wordLikelihoodRatio(getProbabilityOfWordGivenClass(token, Class.Ham),
+                    getProbabilityOfWordGivenClass(token, Class.Spam));
             if (isProbabilityInteresting(probability)) {
-                entry.setValue(probability);
+                trainVocabulary.put(token, probability);
             }
         }
     }
@@ -166,8 +169,7 @@ public class NaiveBayes {
             if (train) {
                 if (cl == Class.Ham) trainHamDataTotal++;
                 else trainSpamDataTotal++;
-                if (!trainVocabulary.containsKey(word))
-                    trainVocabulary.put(word, 0.0);
+                vocabList.add(word);
             }
         }
     }
@@ -206,6 +208,7 @@ public class NaiveBayes {
     private Boolean isProbabilityInteresting(Double probability) {
         return (Math.pow((probability),2) >= Math.pow(0.0,2));
     }
+
 
     private String[] stemWordList(String[] wordList) {
         Stemmer s = new Stemmer();
