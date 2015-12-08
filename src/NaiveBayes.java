@@ -177,7 +177,7 @@ public class NaiveBayes {
     private double getProbabilityOfWordGivenClass(String word, Class cl) {
         double probability;
         if (cl == Class.Ham) {
-            probability = 1.2 * (double) (trainHamData.getOrDefault(word, 0) + 1) / (double) (trainHamDataTotal + trainVocabulary.size());
+            probability = 1.4 * (double) (trainHamData.getOrDefault(word, 0) + 1) / (double) (trainHamDataTotal + trainVocabulary.size());
         } else {
             probability = (double) (trainSpamData.getOrDefault(word, 0) + 1) / (double) (trainSpamDataTotal + trainVocabulary.size());
         }
@@ -197,6 +197,7 @@ public class NaiveBayes {
             if (word.matches("(\\d)*")  || (word.length() <= 2 && !word.contains("!!"))){
                 continue;
             }
+            word = word.replaceAll("[\\.]+$", "");
             if (stopWordList.contains(word.toLowerCase())){
                 continue;
             }
@@ -206,7 +207,8 @@ public class NaiveBayes {
     }
 
     private Boolean isProbabilityInteresting(Double probability) {
-        return (Math.pow((probability),2) >= Math.pow(0.0,2));
+        return (Math.pow((probability),2) >= Math.pow(0.2,2));
+//        return true;
     }
 
 
