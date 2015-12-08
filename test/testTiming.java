@@ -1,8 +1,6 @@
 import org.junit.Assert;
 import org.junit.Test;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 

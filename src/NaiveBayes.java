@@ -194,6 +194,10 @@ public class NaiveBayes {
 
         ArrayList<String> words = new ArrayList<>();
         for (String word : trimmedWords){
+            if (word.matches("['-_.]*")){
+                continue;
+            }
+            word = word.replaceAll("['-_]+['-_]+", "");
             if (word.matches("(\\d)*")  || (word.length() <= 2 && !word.contains("!!"))){
                 continue;
             }
@@ -208,7 +212,6 @@ public class NaiveBayes {
 
     private Boolean isProbabilityInteresting(Double probability) {
         return (Math.pow((probability),2) >= Math.pow(0.2,2));
-//        return true;
     }
 
 

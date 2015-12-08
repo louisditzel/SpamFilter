@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.Iterator;
 
 public class filter {
 
@@ -55,4 +54,5 @@ public class filter {
         }
         System.out.println("Test file: " + testFile.getName());
     }
+
 }
