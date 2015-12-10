@@ -17,7 +17,7 @@ public class NaiveBayes {
     private HashSet<String> vocabList;
     private HashMap<String, Double> trainVocabulary;
     private int trainHamDataTotal, trainSpamDataTotal, numHamFiles, numSpamFiles;
-    private double priorHam, priorSpam;
+    private double priorHam, priorSpam, testProbability;
 
     protected NaiveBayes() {
         trainHamData = new HashMap<>();
@@ -51,10 +51,12 @@ public class NaiveBayes {
         numSpamFiles = 0;
         priorHam = 0;
         priorSpam = 0;
+        testProbability = 0.0;
     }
 
     public void clearInstanceForTest() {
         testWordData.clear();
+        testProbability = 0.0;
     }
 
     public void train(DirectoryStream<Path> trainFiles) throws IOException {
@@ -101,7 +103,7 @@ public class NaiveBayes {
         }
 
         probability += Math.log(priorHam) - Math.log(priorSpam);
-
+        testProbability = probability;
         return probability >= 0 ? "ham\n" : "spam\n";
     }
 
@@ -138,6 +140,10 @@ public class NaiveBayes {
 
     public int getNumSpamFiles() {
         return numSpamFiles;
+    }
+
+    public double getTestProbability() {
+        return testProbability;
     }
 
     private void setClassPriors(int numHam, int numSpam) {

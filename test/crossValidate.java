@@ -161,9 +161,11 @@ public class crossValidate {
                     switch (out.trim()) {
                         case "ham":
                             numIncorrect[1]++;
+                            System.out.println("Incorrect spam -- " + file.getFileName() + ": " + naiveBayes.getTestProbability());
                             break;
                         case "spam":
                             numIncorrect[0]++;
+                            System.out.println("Incorrect ham --  " + file.getFileName() + ": " + naiveBayes.getTestProbability());
                             break;
                         default:
                             System.out.println("Error: Not ham or spam");
